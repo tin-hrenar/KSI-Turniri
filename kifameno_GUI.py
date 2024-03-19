@@ -27,6 +27,10 @@ upisi_igru_rect = upisi_igru_text.get_rect(center = (800, 600))
 genkolo_text = start_font.render('generiraj kolo', True, 'white')
 genkolo_rect = genkolo_text.get_rect(center = (800, 800))
 
+#ljestvica()
+natrag_text = start_font.render('novi turnir', True, 'white')
+natrag_rect = natrag_text.get_rect(center = (200, 200))
+
 rect_list = [begin_rect] 
 
 
@@ -38,18 +42,19 @@ def rectlistmagija(mx, my):
             return rect_list.index(i)
     return -1
 
-'''def whiletrue():
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-        mx, my = pygame.mouse.get_pos()
-        if pygame.mouse.get_pressed() == (True, False, False):
-            indx = rectlistmagija()
-#            print('indx', indx)
-            if indx != -1:
-                pass'''
+def whiletrue():
+    '''stvari koje bi trebao pisat u svakom mainloopu, pa ne trebam'''
+    global rect_list
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+    mx, my = pygame.mouse.get_pos()
+    if pygame.mouse.get_pressed()[0] == True:
+        for i in rect_list:
+            if i.collidepoint(mx, my):
+                return rect_list.index(i)
+        return -1
                 
 def blit_button(rect, text, screen, w):
     t = (rect.x+rect.w, rect.y+rect.h)
@@ -68,24 +73,25 @@ def main_menu():
 
 
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-        mx, my = pygame.mouse.get_pos()
-        if pygame.mouse.get_pressed() == (True, False, False):
-            indx = rectlistmagija(mx, my)
-            if indx != -1:
-                match indx: #nova sintaksa: match/case
-                    case 0:
-                        noviturnir()
-                    case 1:
-                        print('ljestvica')
-                        ljestvica()
-                    case 2:
-                        print('upisi igru')
-                    case 3:
-                        print('generiraj kolo')
+#        for event in pygame.event.get():
+#            if event.type == pygame.QUIT:
+#                pygame.quit()
+#                exit()
+#        mx, my = pygame.mouse.get_pos()
+#        if pygame.mouse.get_pressed()[0] == True:
+#            indx = rectlistmagija(mx, my)
+        indx = whiletrue()             
+        if indx != -1:
+            match indx: #nova sintaksa: match/case
+                case 0:
+                    noviturnir()
+                case 1:
+                    print('ljestvica')
+#                    ljestvica()
+                case 2:
+                    print('upisi igru')
+                case 3:
+                    print('generiraj kolo')
         blit_button(noviturnir_rect, noviturnir_text, screen, 1)
         blit_button(ljestvica_rect, ljestvica_text, screen, 1)
         blit_button(upisi_igru_rect, upisi_igru_text, screen, 1)
@@ -99,16 +105,16 @@ def noviturnir():
     
     if da:
         print('da')
-        ljestvica = open('ljestvica.txt', 'w')
+        
 
         lista = popup.popup2()
         print(lista)
-
+        ljestvica = open('ljestvica.txt', 'w')
         for i in lista:
             ljestvica.write(f'{i+",":30}0,   0   \n')
         ljestvica.close()
         
-    elif not da:
+    else:
         print('ne')
 
     pygame.quit()
@@ -125,24 +131,22 @@ def ljestvica():
         text = leaderboard_font.render(str(s), True, 'White')
         screen.blit(text, (0, 0+i*31))
 
+    while True:
+        indx = whiletrue()
+        if indx != -1:
+            pass
+
+        
+
 def main():
     '''mainloop za biranje izmedu tresete i kifa meno'''
     global rect_list
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            mx, my = pygame.mouse.get_pos()
-            if pygame.mouse.get_pressed() == (True, False, False):
-                indx = rectlistmagija(mx, my)
-    #            print('indx', indx)
-                if indx != -1:
-                    if rect_list[indx] == begin_rect:
-    #                    print('da')
-                        screen.fill('black')
-                        rect_list = [noviturnir_rect, ljestvica_rect, upisi_igru_rect, genkolo_rect]
-                        main_menu()
+        indx = whiletrue()
+        if indx == 0:
+            screen.fill('black')
+            rect_list = [noviturnir_rect, ljestvica_rect, upisi_igru_rect, genkolo_rect]
+            main_menu()
 
         
         pygame.display.update()

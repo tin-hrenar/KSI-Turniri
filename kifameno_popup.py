@@ -1,7 +1,7 @@
 import pygame
 import pygame_textinput
 from sys import exit
-'''Ideju dao Ivan Golek'''
+'''Ideju i pomoc za popup window dao Ivan Golek'''
 def blit_button(rect, text, screen):
     t = (rect.x+rect.w/2-10, rect.y+rect.h/2-15)
     screen.blit(text, t)
@@ -43,7 +43,7 @@ def popup():
                     pygame.quit()
                     exit()
         mx, my = pygame.mouse.get_pos()
-        if pygame.mouse.get_pressed() == (True, False, False):
+        if pygame.mouse.get_pressed()[0] == True:
             if da_rect.collidepoint(mx, my):
                 return 1
             elif ne_rect.collidepoint(mx, my):
@@ -93,7 +93,7 @@ def popup2(): #hvala ivan <3
             screen2.blit(text, (10, i*30))
 
         mx, my = pygame.mouse.get_pos()
-        if pygame.mouse.get_pressed() == (True, False, False):
+        if pygame.mouse.get_pressed()[0] == True:
             if end_rect.collidepoint(mx, my):
                 return lista
 
