@@ -28,8 +28,8 @@ genkolo_text = start_font.render('generiraj kolo', True, 'white')
 genkolo_rect = genkolo_text.get_rect(center = (800, 800))
 
 #ljestvica()
-natrag_text = start_font.render('novi turnir', True, 'white')
-natrag_rect = natrag_text.get_rect(center = (200, 200))
+natrag_text = leaderboard_font.render('natrag', True, 'white')
+natrag_rect = natrag_text.get_rect(center = (1500, 100))
 
 rect_list = [begin_rect] 
 
@@ -73,21 +73,16 @@ def main_menu():
 
 
     while True:
-#        for event in pygame.event.get():
-#            if event.type == pygame.QUIT:
-#                pygame.quit()
-#                exit()
-#        mx, my = pygame.mouse.get_pos()
-#        if pygame.mouse.get_pressed()[0] == True:
-#            indx = rectlistmagija(mx, my)
         indx = whiletrue()             
         if indx != -1:
             match indx: #nova sintaksa: match/case
                 case 0:
+                    print('noviturnir')
                     noviturnir()
                 case 1:
                     print('ljestvica')
-#                    ljestvica()
+                    rect_list = [natrag_rect]
+                    ljestvica()
                 case 2:
                     print('upisi igru')
                 case 3:
@@ -114,8 +109,8 @@ def noviturnir():
             ljestvica.write(f'{i+",":30}0,   0   \n')
         ljestvica.close()
         
-    else:
-        print('ne')
+#    else:
+#        print('ne')
 
     pygame.quit()
     exit()
@@ -133,10 +128,23 @@ def ljestvica():
 
     while True:
         indx = whiletrue()
-        if indx != -1:
-            pass
+        if indx == 0:
+            screen.fill('black')
+            rect_list = [noviturnir_rect, ljestvica_rect, upisi_igru_rect, genkolo_rect]
+            main_menu()
 
-        
+        blit_button(natrag_rect, natrag_text, screen, 1)
+        for i in range(len(l)):
+            s = l[i].split()
+            text = leaderboard_font.render(str(s), True, 'White')
+            screen.blit(text, (0, 0+i*31))
+
+        pygame.display.update()
+        clock.tick(60)
+
+def upisi_igru():
+    '''mainloop za upisivanje nove igre'''
+    pass
 
 def main():
     '''mainloop za biranje izmedu tresete i kifa meno'''
