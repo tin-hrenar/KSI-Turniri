@@ -75,7 +75,7 @@ def popup2(): #hvala ivan <3
     end_rect = end_text.get_rect(topleft = (700, 100))
     while True:
         screen2.fill('black')
-        print(textinput.value)
+#        print(textinput.value)
         events = pygame.event.get()
         textinput.update(events)
         
