@@ -17,13 +17,13 @@ def popup():
     pygame.init()
     
     screen2 = pygame.display.set_mode((300, 200))
-    pygame.display.set_caption('u sure bud')
+    pygame.display.set_caption('Jeste li sigurni')
     clock = pygame.time.Clock()
     start_font = pygame.font.Font('ComicSansMS3.ttf', 20)
 
     pozadina = pygame.image.load('pozadina.png')
 
-    sure_text = start_font.render('u sure bud?', True, 'White')
+    sure_text = start_font.render('Jeste li sigurni?', True, 'White')
     sure_rect = sure_text.get_rect(center = (150, 70))
     da_text = start_font.render('da', True, 'White')
     da_rect = sure_text.get_rect(center = (150, 130))
@@ -71,10 +71,12 @@ def popup2(): #hvala ivan <3
     textinput = pygame_textinput.TextInputVisualizer(font_color = 'White')
     red = 0
     lista = []
+    info_text = text_font.render('Upisite imena i prezimena, svaka u svojem redu, odvojena razmakom.', True, 'White')
+    info_rect = info_text.get_rect(topleft = (10, 0))
     end_text = end_font.render('Zavrsi upis', True, 'White')
     end_rect = end_text.get_rect(topleft = (700, 100))
     while True:
-        screen2.fill('black')
+        screen2.fill((106, 106, 106))
 #        print(textinput.value)
         events = pygame.event.get()
         textinput.update(events)
@@ -90,7 +92,7 @@ def popup2(): #hvala ivan <3
 
         for i in range(len(lista)):
             text = text_font.render(str(lista[i]), True, 'White')
-            screen2.blit(text, (10, i*30))
+            screen2.blit(text, (10, 30+i*30))
 
         mx, my = pygame.mouse.get_pos()
         if pygame.mouse.get_pressed()[0] == True:
@@ -99,7 +101,8 @@ def popup2(): #hvala ivan <3
 
         blit_button2(end_rect, end_text, screen2)
         pygame.draw.rect(screen2, 'White', end_rect, width = 3)
-        screen2.blit(textinput.surface, (10, 10+red))
+        screen2.blit(info_text, info_rect)
+        screen2.blit(textinput.surface, (10, 40+red))
         pygame.display.update()
         clock.tick(60)
         

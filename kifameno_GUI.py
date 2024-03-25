@@ -9,7 +9,7 @@ screen = pygame.display.set_mode((1600, 900))
 pygame.display.set_caption('Chi Fa Meno turnir')
 clock = pygame.time.Clock()
 
-start_font = pygame.font.Font('ComicSansMS3.ttf', 80)
+start_font = pygame.font.Font('times new roman italic.ttf', 80)
 natrag_font = pygame.font.Font('ComicSansMS3.ttf', 50)
 leaderboard_font = pygame.font.Font('ComicSansMS3.ttf', 20)
 
