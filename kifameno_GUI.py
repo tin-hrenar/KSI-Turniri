@@ -10,8 +10,9 @@ pygame.display.set_caption('Chi Fa Meno turnir')
 clock = pygame.time.Clock()
 
 start_font = pygame.font.Font('times new roman italic.ttf', 80)
+kolo_font = pygame.font.Font('times new roman bold italic.ttf', 120)
 natrag_font = pygame.font.Font('ComicSansMS3.ttf', 50)
-leaderboard_font = pygame.font.Font('ComicSansMS3.ttf', 20)
+leaderboard_font = pygame.font.Font('ComicSansMS3.ttf', 15)
 
 #main()
 begin_text = start_font.render('Begin', True, 'White')
@@ -39,6 +40,9 @@ bodovi_rect = bodovi_text.get_rect(center = (800, 40))
 punti_text = leaderboard_font.render('punti', True, 'white')
 punti_rect = punti_text.get_rect(center = (900, 40))
 
+#generiraj_kolo_km()
+n = 1
+
 rect_list = [begin_rect] 
 
 
@@ -53,12 +57,13 @@ rect_list = [begin_rect]
 def whiletrue():
     '''stvari koje bi trebao pisat u svakom mainloopu, pa ne trebam'''
     global rect_list
+#    print(rect_list)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
     mx, my = pygame.mouse.get_pos()
-    print(mx, my)
+#    print(mx, my)
     if pygame.mouse.get_pressed()[0] == True:
         for i in rect_list:
             if i.collidepoint(mx, my):
@@ -118,7 +123,7 @@ def noviturnir():
         print(lista)
         ljestvica = open('ljestvica.txt', 'w')
         for i in lista:
-            ljestvica.write(f'{i:30}|0  |0  |\n')
+            ljestvica.write(f'{i:30}|0  |0  |\n') #valjda nitko nema ime duze od 30...
         ljestvica.close()
         
 #    else:
@@ -152,9 +157,9 @@ def ljestvica():
                 
             for pos in pos_lista:
                 text = leaderboard_font.render(str(s[pos_lista.index(pos)]), True, 'White')
-                rect = text.get_rect(center = (pos, 100+i*40))
+                rect = text.get_rect(center = (pos, 95+i*30))
                 screen.blit(text, rect)
-                pygame.draw.line(screen,'White', (0, 120+i*40), (1200, 120+i*40))
+                pygame.draw.line(screen,'White', (0, 80+i*30), (1200, 80+i*30))
         pygame.draw.line(screen,'White', (0, 80), (1200, 80))
         pygame.draw.line(screen,'White', (300, 0), (300, 1200))
         pygame.draw.line(screen,'White', (750, 0), (750, 1200))
@@ -169,11 +174,13 @@ def ljestvica():
 
 def upisi_igru():
     '''mainloop za upisivanje nove igre'''
+    global rect_list
     print('upisi igru')
     pass
 
 def generiraj_kolo_km():
     '''mainloop za generiranje novog kola'''
+    global rect_list, n
     ljestvica = open('ljestvica.txt', 'r')
     print('generiraj kolo')
 
@@ -187,15 +194,17 @@ def generiraj_kolo_km():
 
     indx = 0
     l1 = []
-    while indx+6 != len(l):
-        l1.append((l[indx][0], l[indx+3][0], l[indx+6][0]))
-        indx += 1
+    while indx+3 <= len(l):
+        l1.append((l[indx][0], l[indx+1][0], l[indx+2][0]))
+        indx += 3
     print(l)
     print('novo kolo:')
-    for i in l1:
-        print(i)
+    for i in range(len(l1)):
+        print(i, l1[i])
 
     screen.fill('black')
+    kolo_text = kolo_font.render(f'{n}. kolo', True, 'White')
+    kolo_rect = kolo_text.get_rect(center = (800, 100))
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -209,6 +218,11 @@ def generiraj_kolo_km():
 
                 
         blit_button(natrag_rect, natrag_text, screen, 1)
+        screen.blit(kolo_text, kolo_rect)
+        for i in range(len(l1)):
+            for j in range(3):
+                text = leaderboard_font.render(str(l1[i][j]), True, 'White')
+                screen.blit(text, (125+300*(i%5), 250+20*j+150*(i//5)))
 
         
         pygame.display.update()
