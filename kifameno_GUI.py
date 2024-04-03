@@ -58,9 +58,11 @@ def whiletrue():
             pygame.quit()
             exit()
     mx, my = pygame.mouse.get_pos()
+    print(mx, my)
     if pygame.mouse.get_pressed()[0] == True:
         for i in rect_list:
             if i.collidepoint(mx, my):
+                print('bro', mx, my, i)
                 return rect_list.index(i)
         return -1
                 
@@ -94,7 +96,8 @@ def main_menu():
                 case 2:
                     upisi_igru()
                 case 3:
-                    print('generiraj kolo')
+                    rect_list = [natrag_rect]
+                    generiraj_kolo_km()
         blit_button(noviturnir_rect, noviturnir_text, screen, 1)
         blit_button(ljestvica_rect, ljestvica_text, screen, 1)
         blit_button(upisi_igru_rect, upisi_igru_text, screen, 1)
@@ -168,6 +171,48 @@ def upisi_igru():
     '''mainloop za upisivanje nove igre'''
     print('upisi igru')
     pass
+
+def generiraj_kolo_km():
+    '''mainloop za generiranje novog kola'''
+    ljestvica = open('ljestvica.txt', 'r')
+    print('generiraj kolo')
+
+    l = ljestvica.readlines()
+    l = [i.split('|') for i in l]
+    for i in l:
+        i[0] = i[0].strip()
+        i[1] = int(i[1])
+        i[2] = int(i[2])
+        del i[3]
+
+    indx = 0
+    l1 = []
+    while indx+6 != len(l):
+        l1.append((l[indx][0], l[indx+3][0], l[indx+6][0]))
+        indx += 1
+    print(l)
+    print('novo kolo:')
+    for i in l1:
+        print(i)
+
+    screen.fill('black')
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+        indx = whiletrue()
+        if indx == 0:
+            screen.fill('black')
+            rect_list = [noviturnir_rect, ljestvica_rect, upisi_igru_rect, genkolo_rect]
+            main_menu()
+
+                
+        blit_button(natrag_rect, natrag_text, screen, 1)
+
+        
+        pygame.display.update()
+        clock.tick(60)
 
 def main():
     '''mainloop za biranje izmedu tresete i kifa meno'''
