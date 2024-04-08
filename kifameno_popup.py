@@ -35,8 +35,6 @@ def popup():
     #print('ne:', ne_rect.x, ne_rect.y, ne_rect.w, ne_rect.h)
 
 
-    
-
     while True:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -60,7 +58,7 @@ def popup():
         pygame.display.update()
         clock.tick(60)
 
-def popup2(): #hvala ivan <3
+def popup2():
     pygame.init()
     
     screen2 = pygame.display.set_mode((1000, 1000))
