@@ -19,7 +19,7 @@ def popup():
     screen2 = pygame.display.set_mode((300, 200))
     pygame.display.set_caption('Jeste li sigurni')
     clock = pygame.time.Clock()
-    start_font = pygame.font.Font('ComicSansMS3.ttf', 20)
+    start_font = pygame.font.SysFont('Comic Sans MS', 20)
 
     pozadina = pygame.image.load('pozadina.png')
 
@@ -64,8 +64,8 @@ def popup2():
     screen2 = pygame.display.set_mode((1000, 1000))
     pygame.display.set_caption('ok daj imena')
     clock = pygame.time.Clock()
-    text_font = pygame.font.Font('ComicSansMS3.ttf', 25)
-    end_font = pygame.font.Font('ComicSansMS3.ttf', 50)
+    text_font = pygame.font.SysFont('Comic Sans MS', 25)
+    end_font = pygame.font.SysFont('Comic Sans MS', 50)
     textinput = pygame_textinput.TextInputVisualizer(font_color = 'White')
     red = 0
     lista = []

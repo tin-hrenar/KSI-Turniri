@@ -9,11 +9,11 @@ screen = pygame.display.set_mode((1600, 900))
 pygame.display.set_caption('Chi Fa Meno turnir')
 clock = pygame.time.Clock()
 
-start_font = pygame.font.Font('times new roman italic.ttf', 80)
-kolo_font = pygame.font.Font('times new roman bold italic.ttf', 120)
-natrag_font = pygame.font.Font('ComicSansMS3.ttf', 50)
-leaderboard_font = pygame.font.Font('ComicSansMS3.ttf', 15)
-upis_font = pygame.font.Font('times new roman.ttf', 30)
+start_font = pygame.font.SysFont('Times New Roman', 80)
+kolo_font = pygame.font.SysFont('Times New Roman', 120, bold=True, italic=True)
+natrag_font = pygame.font.SysFont('Comic Sans MS', 50)
+leaderboard_font = pygame.font.SysFont('Comic Sans MS', 15)
+upis_font = pygame.font.SysFont('Times New Roman', 30)
 
 #main()
 begin_text = start_font.render('Begin', True, 'White')
@@ -128,7 +128,7 @@ def noviturnir():
 
         lista = popup.popup2()
         print(lista)
-        ljestvica = open('ljestvica.txt', 'w')
+        ljestvica = open('ljestvica_km.txt', 'w')
         igre = open('igre_km.txt', 'w')
         for i in lista:
             ljestvica.write(f'{i:30}|{0:3}|{0:3}|\n') #valjda nitko nema ime duze od 30...
@@ -144,7 +144,7 @@ def ljestvica():
     '''mainloop za prikazivanje ljestvice'''
     global rect_list
     screen.fill('black')
-    ljestvica = open('ljestvica.txt', 'r')
+    ljestvica = open('ljestvica_km.txt', 'r')
     l = ljestvica.readlines()
     pos_lista = [525, 800, 900]
     
@@ -199,7 +199,7 @@ def ljestvica_sort(l):
 def upisi_igru():
     '''mainloop za upisivanje nove igre'''
     global rect_list
-    ljestvica = open('ljestvica.txt', 'r')
+    ljestvica = open('ljestvica_km.txt', 'r')
     print('upisi igru')
 
     s = ljestvica.read()
@@ -242,7 +242,7 @@ def upisi_igru():
 
                 if counter == 6: #kad su 3 imena i 3 broja upisana...
                     igre = open('igre_km.txt', 'a')
-                    ljestvica = open('ljestvica.txt', 'r+')
+                    ljestvica = open('ljestvica_km.txt', 'r+')
 
                     actual_list = [(blit_list[i], int(blit_list[i+1])) for i in range(0, 6, 2)]
                     actual_list = sorted(actual_list, key = lambda t: t[1], reverse = True)
@@ -335,7 +335,7 @@ def swiss(l):
 def generiraj_kolo_km():
     '''mainloop za generiranje novog kola'''
     global rect_list, n
-    ljestvica = open('ljestvica.txt', 'r')
+    ljestvica = open('ljestvica_km.txt', 'r')
     print('generiraj kolo')
 
     l = ljestvica.readlines()

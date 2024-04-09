@@ -1,7 +1,7 @@
 import pygame
 import pygame_textinput
 from sys import exit
-import kifameno_popup as popup
+import treseta_popup as popup
 
 pygame.init()
 
@@ -9,11 +9,11 @@ screen = pygame.display.set_mode((1600, 900))
 pygame.display.set_caption('Chi Fa Meno turnir')
 clock = pygame.time.Clock()
 
-start_font = pygame.font.Font('times new roman italic.ttf', 80)
-kolo_font = pygame.font.Font('times new roman bold italic.ttf', 120)
-natrag_font = pygame.font.Font('ComicSansMS3.ttf', 50)
-leaderboard_font = pygame.font.Font('ComicSansMS3.ttf', 15)
-upis_font = pygame.font.Font('times new roman.ttf', 30)
+start_font = pygame.font.SysFont('Times New Roman', 80)
+kolo_font = pygame.font.SysFont('Times New Roman', 120, bold=True, italic=True)
+natrag_font = pygame.font.SysFont('Comic Sans MS', 50)
+leaderboard_font = pygame.font.SysFont('Comic Sans MS', 15)
+upis_font = pygame.font.SysFont('Times New Roman', 30)
 
 #main()
 begin_text = start_font.render('Begin', True, 'White')
@@ -128,8 +128,8 @@ def noviturnir():
 
         lista = popup.popup2()
         print(lista)
-        ljestvica = open('ljestvica.txt', 'w')
-        igre = open('igre.txt', 'w')
+        ljestvica = open('ljestvica_t.txt', 'w')
+        igre = open('igre_t.txt', 'w')
         for i in lista:
             ljestvica.write(f'{i:30}|{0:3}|{0:3}|\n') #valjda nitko nema ime duze od 30...
         ljestvica.close()
@@ -144,7 +144,7 @@ def ljestvica():
     '''mainloop za prikazivanje ljestvice'''
     global rect_list
     screen.fill('black')
-    ljestvica = open('ljestvica.txt', 'r')
+    ljestvica = open('ljestvica_t.txt', 'r')
     l = ljestvica.readlines()
     pos_lista = [525, 800, 900]
     
@@ -200,7 +200,7 @@ def ljestvica_sort(l): #treseta verzija
 def upisi_igru():
     '''mainloop za upisivanje nove igre'''
     global rect_list
-    ljestvica = open('ljestvica.txt', 'r')
+    ljestvica = open('ljestvica_t.txt', 'r')
     print('upisi igru')
 
     s = ljestvica.read()
@@ -242,8 +242,8 @@ def upisi_igru():
                 counter += 1
 
                 if counter == 4: #kad su 2 imena i 2 broja upisana...
-                    igre = open('igre.txt', 'a')
-                    ljestvica = open('ljestvica.txt', 'r+')
+                    igre = open('igre_t.txt', 'a')
+                    ljestvica = open('ljestvica_t.txt', 'r+')
 
                     actual_list = [[blit_list[i], int(blit_list[i+1]), 0] for i in range(0, 4, 2)]
                     if actual_list[0][1] > actual_list[1][1]: #ako prvi veci od drugog, zamijeni tako da uvijek bude prvi manji a drugi veci
@@ -312,7 +312,7 @@ def swiss(l): #algoritam pretpostavlja da ima paran broj igraca
 def generiraj_kolo_t():
     '''mainloop za generiranje novog kola'''
     global rect_list, n
-    ljestvica = open('ljestvica.txt', 'r')
+    ljestvica = open('ljestvica_t.txt', 'r')
     print('generiraj kolo')
 
     l = ljestvica.readlines()
