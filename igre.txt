@@ -1,15 +1,2 @@
-Tin Hrenar 10 Aron Vivoda 5 Ivan Golek 20
-Vito Manestar 21 Aldo Dubokovic 22 Ivan Sporer 16
-Iva Lovric 41 Katarina Petrovic-Poljak 33 Ema () 54
-Tin Hrenar 10 Aron Vivoda 20 Aldo Dubokovic 33
-Tin Hrenar 10 Ivan Sporer 15 Mislav Gelo 1
-Ivan Golek 5 Tin Hrenar 1 Aldo Dubokovic 20
-Borna Capan 1 Mateo Belosic 1 Filip Ratajc 1
-Iva Barbalic 3 Dina Haluzan 3 Petar Novakovic 5
-Stipe () 4 Janko Stastny 4 Mia Mazalovic 2
-Mislav Gelo 1 Borna Capan 2 Mateo Belosic 2
-Filip Ratajc 1 Mia Mazalovic 1 Dina Haluzan 2
-Mislav Gelo 1 Mateo Belosic 1 Borna Capan 2
-Mateo Belosic 1 Mislav Gelo 1 Borna Capan 2
-Mia Mazalovic 1 Filip Ratajc 1 Dina Haluzan 2
-Petar Novakovic 1 Iva Barbalic 2 Janko Stastny 2
+Tin Hrenar 1 Aldo Dubokovic 1 Aron Vivoda 1
+Tin Hrenar 41 Aron Vivoda 36

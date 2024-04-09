@@ -109,7 +109,7 @@ def main_menu():
                     upisi_igru()
                 case 3:
                     rect_list = [natrag_rect]
-                    generiraj_kolo_km()
+                    generiraj_kolo_t()
         blit_button(noviturnir_rect, noviturnir_text, screen, 1)
         blit_button(ljestvica_rect, ljestvica_text, screen, 1)
         blit_button(upisi_igru_rect, upisi_igru_text, screen, 1)
@@ -129,7 +129,7 @@ def noviturnir():
         lista = popup.popup2()
         print(lista)
         ljestvica = open('ljestvica.txt', 'w')
-        igre = open('igre_km.txt', 'w')
+        igre = open('igre.txt', 'w')
         for i in lista:
             ljestvica.write(f'{i:30}|{0:3}|{0:3}|\n') #valjda nitko nema ime duze od 30...
         ljestvica.close()
@@ -180,19 +180,20 @@ def ljestvica():
         pygame.display.update()
         clock.tick(60)
 
-def ljestvica_sort(l):
-    '''sortiranje ljestvice po bodovima (primarno) i pobjedama (sekundarno)'''
-    l = sorted(l, key = lambda t: t[1]) #sortiranje po bodovima
-#    print('sortirano 1:', l)
+def ljestvica_sort(l): #treseta verzija
+    l = sorted(l, key = lambda t: t[2], reverse = True) #sortiranje po pobjedama
+    for i in l:
+        print(i[2])
+    print('sortirano 1:', l, '\n')
 
     k = 1
     check = True
-    while check: #sortiranje po pobjedama, doslovno samo bubble sort
+    while check: #sortiranje po bodovima, doslovno samo bubble sort ali s extra uvjetom
         check = False
         for i in range(len(l)-k):
-            if l[i][1] == l[i+1][1] and l[i][2] < l[i+1][2]:
+            if l[i][2] == l[i+1][2] and l[i][1] < l[i+1][1]:
                 l[i], l[i+1] = l[i+1], l[i]
-                check = False
+                check = True
         k += 1
     return l
 
@@ -240,25 +241,15 @@ def upisi_igru():
                 textinput.value = ''
                 counter += 1
 
-                if counter == 6: #kad su 3 imena i 3 broja upisana...
-                    igre = open('igre_km.txt', 'a')
+                if counter == 4: #kad su 2 imena i 2 broja upisana...
+                    igre = open('igre.txt', 'a')
                     ljestvica = open('ljestvica.txt', 'r+')
 
-                    actual_list = [(blit_list[i], int(blit_list[i+1])) for i in range(0, 6, 2)]
-                    actual_list = sorted(actual_list, key = lambda t: t[1], reverse = True)
-                    actual_list = [[actual_list[i][0], actual_list[i][1], i] for i in range(0, 3)]
-                    print(actual_list)
-                    if actual_list[0][1] == actual_list[1][1] and actual_list[1][1] == actual_list[2][1]: #ako svi imaju isti broj bodova, svi dobe 1 bod za pobjedu
-                        print('svi isto')
-                        for i in range(3):
-                            actual_list[i][2] = 1
-                    elif actual_list[0][1] == actual_list[1][1]: #ako su zadnja 2 igraca isti po bodovima, dobe 1 pod za pobjedu dok prvi dobiva 2
-                        print('druga 2 ista')
-                        actual_list[0][2] = 1
-                    elif actual_list[1][1] == actual_list[2][1]: #ako su prva 2 igraca isti po bodovima, dobe 1 bod za pobjedu dok treci dobiva 0
-                        print('prva 2 ista')
-                        actual_list[2][2] = 1
-                    print('actual list:', actual_list)
+                    actual_list = [[blit_list[i], int(blit_list[i+1]), 0] for i in range(0, 4, 2)]
+                    if actual_list[0][1] > actual_list[1][1]: #ako prvi veci od drugog, zamijeni tako da uvijek bude prvi manji a drugi veci
+                        actual_list[0], actual_list[1] = actual_list[1], actual_list[0]
+                    actual_list[1][2] = 1 #bod za pobjedu!!!! (congrats)
+
                     igre_string = ' '.join(blit_list)
 
                     igre.write(igre_string + '\n') #pisanje u igre.txt
@@ -312,27 +303,13 @@ def upisi_igru():
         pygame.display.update()
         clock.tick(60)
         
-def swiss(l):
-    '''funkcija uzima sortiranu listu imena i vraca listu 3-torki po swiss formatu turnira'''
+def swiss(l): #algoritam pretpostavlja da ima paran broj igraca
     l1 = []
-    step = 3
-    i = -1
-    error_check = True
-    while i+step*2 != len(l)-1: #(1,4,7),(2,5,8),(3,6,9),(10,13,16)...
-        try:
-            i += 1
-            if not i % 3 and i != 0 and error_check:
-                i += 6
-#            print(i, i+step, i+step*2, l[i], l[i+step], l[i+step*2])
-            l1.append((l[i], l[i+step], l[i+step*2]))
-            error_check = True
-        except IndexError: #ako javi IndexError, znaci da su ili 6 ili 3 igraca ostali, npr ako ima 15 igraca i zadnje je bilo (3,6,9). onda mora ic (10,12,14) i (11,13,15)
-            step -= 1
-            i -= 1
-            error_check = False
+    for i in range(0,len(l),2):
+        l1.append((l[i], l[i+1]))
     return l1    
 
-def generiraj_kolo_km():
+def generiraj_kolo_t():
     '''mainloop za generiranje novog kola'''
     global rect_list, n
     ljestvica = open('ljestvica.txt', 'r')
@@ -352,14 +329,6 @@ def generiraj_kolo_km():
         l_imena.append(i[0])
     print('imena:', l_imena)
     l_imena = swiss(l_imena)
-#    l1 = []
-#    while indx+3 <= len(l):
-#        l1.append((l[indx][0], l[indx+1][0], l[indx+2][0]))
-#        indx += 3
-#    print(l)
-#    print('novo kolo:')
-#    for i in range(len(l1)):
-#        print(i, l1[i])
 
     screen.fill('black')
     kolo_text = kolo_font.render(f'{n}. kolo', True, 'White')
@@ -379,7 +348,7 @@ def generiraj_kolo_km():
         blit_button(natrag_rect, natrag_text, screen, 1)
         screen.blit(kolo_text, kolo_rect)
         for i in range(len(l_imena)):
-            for j in range(3):
+            for j in range(2):
                 text = leaderboard_font.render(str(l_imena[i][j]), True, 'White')
                 screen.blit(text, (125+300*(i%5), 250+20*j+150*(i//5)))
 

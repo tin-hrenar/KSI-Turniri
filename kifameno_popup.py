@@ -69,7 +69,7 @@ def popup2():
     textinput = pygame_textinput.TextInputVisualizer(font_color = 'White')
     red = 0
     lista = []
-    info_text = text_font.render('Upisite imena i prezimena, svaka u svojem redu, odvojena razmakom.', True, 'White')
+    info_text = text_font.render('Upisite imena igraca / timova, svako u svojem redu.', True, 'White')
     info_rect = info_text.get_rect(topleft = (10, 0))
     end_text = end_font.render('Zavrsi upis', True, 'White')
     end_rect = end_text.get_rect(topleft = (700, 100))
