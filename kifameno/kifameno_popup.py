@@ -62,17 +62,18 @@ def popup2():
     pygame.init()
     
     screen2 = pygame.display.set_mode((1000, 1000))
-    pygame.display.set_caption('ok daj imena')
+    pygame.display.set_caption('Upisivanje imena')
     clock = pygame.time.Clock()
     text_font = pygame.font.SysFont('Comic Sans MS', 25)
     end_font = pygame.font.SysFont('Comic Sans MS', 50)
     textinput = pygame_textinput.TextInputVisualizer(font_color = 'White')
     red = 0
     lista = []
-    info_text = text_font.render('Upisite imena igraca ,svako u svojem redu.', True, 'White')
+    info_text = text_font.render('Upišite imena igrača ,svako u svojem redu.', True, 'White')
     info_rect = info_text.get_rect(topleft = (10, 0))
-    end_text = end_font.render('Zavrsi upis', True, 'White')
+    end_text = end_font.render('Završi upis', True, 'White')
     end_rect = end_text.get_rect(topleft = (700, 100))
+    pygame.key.set_repeat(200, 25)
     while True:
         screen2.fill((106, 106, 106))
 #        print(textinput.value)
