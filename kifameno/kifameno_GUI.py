@@ -19,11 +19,7 @@ n_font = pygame.font.SysFont('Times New Roman', 40)
 poseban_upis_igre_font = pygame.font.SysFont('Times New Roman', 40)
 credit_font = pygame.font.SysFont('Comic Sans MS', 15)
 
-###main()
-##begin_text = start_font.render('Begin', True, 'White')
-##begin_rect = begin_text.get_rect(center = (800, 500))
-##screen.blit(begin_text, begin_rect)
-##pygame.draw.rect(screen, 'White', begin_rect, width = 1)
+'''opet, ovo sve se mora definirati na pocetku zbog toga kako program radi, jer se koristi u svakoj funkciji'''
 
 #main_menu()
 noviturnir_text = start_font.render('Novi turnir', False, 'white')
@@ -92,7 +88,7 @@ def whiletrue():
                 
 def blit_button(rect, text, screen, w):
     '''funkcija crta "gumb" (tekst + pravokutnik sirine {w}) na ekran {screen}'''
-    t = (rect.x+rect.w, rect.y+rect.h)
+#    t = (rect.x+rect.w, rect.y+rect.h)
     screen.blit(text, rect)
     pygame.draw.rect(screen, 'White', rect, width = w)
 
@@ -112,10 +108,10 @@ def main_menu():
         if indx != -1:
             match indx: #nova sintaksa: match/case
                 case 0:
-                    print('noviturnir')
+#                    print('noviturnir')
                     noviturnir()
                 case 1:
-                    print('ljestvica')
+#                    print('ljestvica')
                     rect_list = [natrag_rect]
                     ljestvica()
                 case 2:
@@ -142,7 +138,7 @@ def noviturnir():
         
 
         lista = popup.popup2()
-        print(lista)
+#        print(lista)
         ljestvica = open('ljestvica_km.txt', 'w', encoding = 'utf-8')
         igre = open('igre_km.txt', 'w', encoding = 'utf-8')
         kolo = open('kolo_km.txt', 'w', encoding = 'utf-8')
@@ -151,7 +147,7 @@ def noviturnir():
         ljestvica.close()
 
         for i in range(0, len(lista)//3):
-            print(i, 2*i, 2*i+1)
+#            print(i, 2*i, 2*i+1)
             kolo.write(f'{lista[3*i]}|{lista[3*i+1]}|{lista[3*i+2]}\n')
         kolo.close()
         
@@ -169,16 +165,17 @@ def ljestvica():
     l = ljestvica.readlines()
     pos_lista = [525, 800, 900]
     
-
-    while True:
-        indx = whiletrue()
-        if indx == 0:
-            screen.fill('black')
-            rect_list = [noviturnir_rect, ljestvica_rect, upisi_igru_rect, genkolo_rect]
-            main_menu()
-
-        blit_button(natrag_rect, natrag_text, screen, 1)
-        for i in range(len(l)):
+    pygame.draw.line(screen,'White', (300, 80), (950, 80))
+    pygame.draw.line(screen,'White', (300, 0), (300, 1200))
+    pygame.draw.line(screen,'White', (750, 0), (750, 1200))
+    pygame.draw.line(screen,'White', (850, 0), (850, 1200))
+    pygame.draw.line(screen,'White', (950, 0), (950, 1200))
+    screen.blit(imeigraca_text, imeigraca_rect)
+    screen.blit(bodovi_text, bodovi_rect)
+    screen.blit(punti_text, punti_rect)
+    screen.blit(credit_text, credit_rect)
+    blit_button(natrag_rect, natrag_text, screen, 1)
+    for i in range(len(l)):
             s = l[i].split('|')
             del s[-1]
             for j in range(len(s)):
@@ -189,15 +186,12 @@ def ljestvica():
                 rect = text.get_rect(center = (pos, 95+i*30))
                 screen.blit(text, rect)
                 pygame.draw.line(screen,'White', (0, 80+i*30), (1200, 80+i*30))
-        pygame.draw.line(screen,'White', (300, 80), (950, 80))
-        pygame.draw.line(screen,'White', (300, 0), (300, 1200))
-        pygame.draw.line(screen,'White', (750, 0), (750, 1200))
-        pygame.draw.line(screen,'White', (850, 0), (850, 1200))
-        pygame.draw.line(screen,'White', (950, 0), (950, 1200))
-        screen.blit(imeigraca_text, imeigraca_rect)
-        screen.blit(bodovi_text, bodovi_rect)
-        screen.blit(punti_text, punti_rect)
-        screen.blit(credit_text, credit_rect)
+    while True:
+        indx = whiletrue()
+        if indx == 0:
+            screen.fill('black')
+            rect_list = [noviturnir_rect, ljestvica_rect, upisi_igru_rect, genkolo_rect]
+            main_menu()
 
         pygame.display.update()
         clock.tick(60)
@@ -222,13 +216,13 @@ def upisi_igru():
     '''mainloop za upisivanje nove igre'''
     global rect_list
     ljestvica = open('ljestvica_km.txt', 'r', encoding = 'utf-8')
-    print('upisi igru')
+#    print('upisi igru')
 
     s = ljestvica.read()
-    print('vrlo vazan string kojeg trebam: ', s)
+#    print('vrlo vazan string kojeg trebam: ', s)
     ljestvica.seek(0)
     l = ljestvica.readlines()
-    print('readlines prije', l)
+#    print('readlines prije', l)
     l = [i.split('|') for i in l]
     while ['\n'] in l:
         l.remove(['\n'])
@@ -237,14 +231,12 @@ def upisi_igru():
         i[1] = int(i[1])
         i[2] = int(i[2])
         del i[3]
-        i = tuple(i)
-    print('readlines kasnije', l)
+#    print('readlines kasnije', l)
     textinput = pygame_textinput.TextInputVisualizer(font_color = 'White', font_object = upis_font) #objekt koji se bavi inputom i crta ga na ekran, no ja moram odredit gdje ce se tekst nacrtat
     pomak_x = 0
     pomak_y = -50
     blit_list = []
     counter = 0
-    screen.fill((100, 0, 0))
 
     while True:
         screen.fill((100, 0, 0))
@@ -269,18 +261,18 @@ def upisi_igru():
                     actual_list = [(blit_list[i], int(blit_list[i+1])) for i in range(0, 6, 2)]
                     actual_list = sorted(actual_list, key = lambda t: t[1], reverse = True)
                     actual_list = [[actual_list[i][0], actual_list[i][1], i] for i in range(0, 3)]
-                    print(actual_list)
+#                    print(actual_list)
                     if actual_list[0][1] == actual_list[1][1] and actual_list[1][1] == actual_list[2][1]: #ako svi imaju isti broj bodova, svi dobe 1 bod za pobjedu
-                        print('svi isto')
+#                        print('svi isto')
                         for i in range(3):
                             actual_list[i][2] = 1
                     elif actual_list[0][1] == actual_list[1][1]: #ako su zadnja 2 igraca isti po bodovima, dobe 1 pod za pobjedu dok prvi dobiva 2
-                        print('druga 2 ista')
+#                        print('druga 2 ista')
                         actual_list[0][2] = 1
                     elif actual_list[1][1] == actual_list[2][1]: #ako su prva 2 igraca isti po bodovima, dobe 1 bod za pobjedu dok treci dobiva 0
-                        print('prva 2 ista')
+#                        print('prva 2 ista')
                         actual_list[2][2] = 1
-                    print('actual list:', actual_list)
+#                    print('actual list:', actual_list)
                     igre_string = ' '.join(blit_list)
 
                     igre.write(igre_string + '\n') #pisanje u igre.txt
@@ -354,10 +346,9 @@ def swiss(l):
             i += 1
             if not i % 3 and i != 0 and error_check:
                 i += 6
-#            print(i, i+step, i+step*2, l[i], l[i+step], l[i+step*2])
-            l1.append((l[i], l[i+step], l[i+step*2]))
+            l1.append((l[i], l[i+step], l[i+step*2])) #ako javi IndexError, znaci da su ili 6 ili 3 igraca ostali, npr ako ima 15 igraca i zadnje je bilo (3,6,9). onda mora ic (10,12,14) i (11,13,15)
             error_check = True
-        except IndexError: #ako javi IndexError, znaci da su ili 6 ili 3 igraca ostali, npr ako ima 15 igraca i zadnje je bilo (3,6,9). onda mora ic (10,12,14) i (11,13,15)
+        except IndexError: 
             step -= 1
             i -= 1
             error_check = False
@@ -368,7 +359,7 @@ def generiraj_kolo_km():
     global rect_list, n, kolo_check
     ljestvica = open('ljestvica_km.txt', 'r', encoding = 'utf-8')
     kolo = open('kolo_km.txt', 'r', encoding = 'utf-8')
-    print('generiraj kolo')
+#    print('generiraj kolo')
 
     l = ljestvica.readlines()
     l = [i.split('|') for i in l]
@@ -379,29 +370,14 @@ def generiraj_kolo_km():
         del i[3]
 
     indx = 0
-#    l_imena = []
-#    for i in l:
-#        l_imena.append(i[0])
-#    print('imena:', l_imena)
-#    l_imena = swiss(l_imena)
 
     l_imena1 = kolo.readlines()
     l_imena1 = [i.strip('\n').split('|') for i in l_imena1]
-    
-#    l1 = []
-#    while indx+3 <= len(l):
-#        l1.append((l[indx][0], l[indx+1][0], l[indx+2][0]))
-#        indx += 3
-#    print(l)
-#    print('novo kolo:')
-#    for i in range(len(l1)):
-#        print(i, l1[i])
 
     screen.fill('black')
     kolo_text = kolo_font.render(f'{n}. kolo', True, 'White')
     kolo_rect = kolo_text.get_rect(center = (800, 100))
     counter = 0
-#    kolo_check = True
     screen.fill((50, 0, 0))
     while True:
         for event in pygame.event.get():
@@ -419,7 +395,7 @@ def generiraj_kolo_km():
                 main_menu()
             case 1:
                 if kolo_check:
-                    print('novo kolo aktivirano')
+#                    print('novo kolo aktivirano')
                     n += 1
                     kolo_text = kolo_font.render(f'{n}. kolo', True, 'White')
                     kolo_check = False
