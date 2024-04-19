@@ -18,11 +18,7 @@ credit_font = pygame.font.SysFont('Comic Sans MS', 15)
 upis_font = pygame.font.SysFont('Times New Roman', 30)
 n_font = pygame.font.SysFont('Times New Roman', 40)
 
-###main()
-##begin_text = start_font.render('Begin', True, 'White')
-##begin_rect = begin_text.get_rect(center = (800, 500))
-##screen.blit(begin_text, begin_rect)
-##pygame.draw.rect(screen, 'White', begin_rect, width = 1)
+'''ovo sve se mora definirati na pocetku zbog toga kako program radi, jer se koristi u svakoj funkciji'''
 
 #main_menu()
 noviturnir_text = start_font.render('Novi turnir', False, 'white')
@@ -108,10 +104,10 @@ def main_menu():
         if indx != -1:
             match indx: #nova sintaksa: match/case
                 case 0:
-                    print('noviturnir')
+#                    print('noviturnir')
                     noviturnir()
                 case 1:
-                    print('ljestvica')
+#                    print('ljestvica')
                     rect_list = [natrag_rect]
                     ljestvica()
                 case 2:
@@ -167,7 +163,16 @@ def ljestvica():
     l = ljestvica.readlines()
     pos_lista = [525, 800, 900]
     
-    screen.fill((0, 15, 150))
+    pygame.draw.line(screen,'White', (300, 80+len(l)*30), (950, 80+len(l)*30))
+    pygame.draw.line(screen,'White', (300, 80), (950, 80))
+    pygame.draw.line(screen,'White', (300, 0), (300, 1200))
+    pygame.draw.line(screen,'White', (750, 0), (750, 1200))
+    pygame.draw.line(screen,'White', (850, 0), (850, 1200))
+    pygame.draw.line(screen,'White', (950, 0), (950, 1200))
+    screen.blit(imeigraca_text, imeigraca_rect)
+    screen.blit(bodovi_text, bodovi_rect)
+    screen.blit(punti_text, punti_rect)
+    screen.blit(credit_text, credit_rect)
     while True:
         indx = whiletrue()
         if indx == 0:
@@ -187,25 +192,15 @@ def ljestvica():
                 rect = text.get_rect(center = (pos, 95+i*30))
                 screen.blit(text, rect)
                 pygame.draw.line(screen,'White', (300, 80+i*30), (950, 80+i*30))
-        pygame.draw.line(screen,'White', (300, 80+len(l)*30), (950, 80+len(l)*30))
-        pygame.draw.line(screen,'White', (300, 80), (950, 80))
-        pygame.draw.line(screen,'White', (300, 0), (300, 1200))
-        pygame.draw.line(screen,'White', (750, 0), (750, 1200))
-        pygame.draw.line(screen,'White', (850, 0), (850, 1200))
-        pygame.draw.line(screen,'White', (950, 0), (950, 1200))
-        screen.blit(imeigraca_text, imeigraca_rect)
-        screen.blit(bodovi_text, bodovi_rect)
-        screen.blit(punti_text, punti_rect)
-        screen.blit(credit_text, credit_rect)
 
         pygame.display.update()
         clock.tick(60)
 
 def ljestvica_sort(l): #treseta verzija
     l = sorted(l, key = lambda t: t[2], reverse = True) #sortiranje po pobjedama
-    for i in l:
-        print(i[2])
-    print('sortirano 1:', l, '\n')
+#    for i in l:
+#        print(i[2])
+#    print('sortirano 1:', l, '\n')
 
     k = 1
     check = True
@@ -222,13 +217,13 @@ def upisi_igru():
     '''mainloop za upisivanje nove igre'''
     global rect_list
     ljestvica = open('ljestvica_t.txt', 'r', encoding = 'utf-8')
-    print('upisi igru')
+#    print('upisi igru')
 
     s = ljestvica.read()
-    print('vrlo vazan string kojeg trebam: ', s)
+#    print('vrlo vazan string kojeg trebam: ', s)
     ljestvica.seek(0)
     l = ljestvica.readlines()
-    print('readlines prije', l)
+#    print('readlines prije', l)
     l = [i.split('|') for i in l]
     while ['\n'] in l:
         l.remove(['\n'])
@@ -238,7 +233,7 @@ def upisi_igru():
         i[2] = int(i[2])
         del i[3]
         i = tuple(i)
-    print('readlines kasnije', l)
+#    print('readlines kasnije', l)
     textinput = pygame_textinput.TextInputVisualizer(font_color = 'White', font_object = upis_font) #objekt koji se bavi inputom i crta ga na ekran, no ja moram odredit gdje ce se tekst nacrtat
     pomak_x = 0
     pomak_y = -50
@@ -276,7 +271,7 @@ def upisi_igru():
                     gol_razlika = actual_list[1][1] - actual_list[0][1] #razlika izmedu bodova. npr ako su bodovi 41-35, prvi tim treba dobit +6 a drugi -6
                     actual_list[0][1] = -gol_razlika
                     actual_list[1][1] = gol_razlika
-                    print(actual_list)
+#                    print(actual_list)
 
                     igre_string = ' '.join(blit_list)
 
@@ -352,7 +347,7 @@ def generiraj_kolo_t():
     global rect_list, n, kolo_check
     ljestvica = open('ljestvica_t.txt', 'r', encoding = 'utf-8')
     kolo = open('kolo_t.txt', 'r', encoding = 'utf-8')
-    print('generiraj kolo')
+#    print('generiraj kolo')
 
     l = ljestvica.readlines()
     l = [i.split('|') for i in l]
@@ -361,7 +356,7 @@ def generiraj_kolo_t():
         i[1] = int(i[1])
         i[2] = int(i[2])
         del i[3]
-    print('l:', l)
+#    print('l:', l)
 
     indx = 0
 #    l_imena = []
@@ -369,9 +364,9 @@ def generiraj_kolo_t():
 #        l_imena.append(i[0])
 
     l_imena1 = kolo.readlines()
-    print(l_imena1)
+#    print(l_imena1)
     l_imena1 = [i.strip('\n').split('|') for i in l_imena1]
-    print('imena1:', l_imena1)
+#    print('imena1:', l_imena1)
 #    l_imena = swiss(l_imena)
 #    print('imena:', l_imena)
 
@@ -396,7 +391,7 @@ def generiraj_kolo_t():
                 main_menu()
             case 1:
                 if kolo_check:
-                    print('novo kolo aktivirano')
+#                    print('novo kolo aktivirano')
                     n += 1
                     kolo_text = kolo_font.render(f'{n}. kolo', True, 'White')
                     kolo_check = False
@@ -412,7 +407,7 @@ def generiraj_kolo_t():
 
                     l_i = [i[0] for i in l]
                     l_i = swiss(l_i)
-                    print(l_i)
+#                    print(l_i)
                     kolo = open('kolo_t.txt', 'w', encoding = 'utf-8')
                     for i in l_i:
                         kolo.write(f'{i[0]}|{i[1]}\n')
